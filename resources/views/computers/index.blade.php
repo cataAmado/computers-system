@@ -1,13 +1,8 @@
-<!doctype html>
-<html lang="en">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <title>computers</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    </head>
-    <body>
-        
+@extends('layouts.base')
+@section('content')
+
+   
+
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -24,28 +19,36 @@
                                 <th scope="col">RAM</th>
                                 <th scope="col">Price</th>
                                 <th scope="col">Storage</th>
-                                <th scope="col">Monitor</th>    
-                                <th scope="col">Purchase_Date</th> 
-                                              
+                                <th scope="col">Monitor</th>
+                                <th scope="col">Purchase_Date</th>
+                                <th scope="col">View</th>
                                 <th scope="col">Edit</th>
+                                <th scope="col">Delete</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($computers as $computer)
+                            @foreach ($computers as $computer)
                                 <tr>
-                                    <th scope="row">{{$computer->id}}</th>
-                                    <td>{{$computer->name}}</td>
-                                    <td>{{$computer->description}}</td>
-                                    <td>{{$computer->os}}</td>
-                                    <td>{{$computer->ram}}</td>
-                                    <td>{{$computer->price}}</td>
-                                    <td>{{$computer->storage}}</td>
-                                    <td>{{$computer->monitor}}</td>
-                                    <td>{{$computer->purchase_date}}</td>
+                                    <th scope="row">{{ $computer->id }}</th>
+                                    <td>{{ $computer->name }}</td>
+                                    <td>{{ $computer->description }}</td>
+                                    <td>{{ $computer->os }}</td>
+                                    <td>{{ $computer->ram }}</td>
+                                    <td>{{ $computer->price }}</td>
+                                    <td>{{ $computer->storage }}</td>
+                                    <td>{{ $computer->monitor }}</td>
+                                    <td>{{ $computer->purchase_date }}</td>
+                                    <td><a class="btn btn-primary" href="{{ route('computers.show', $computer) }}">Show</td>
 
-                                    
-                                    {{-- <td><a class="btn btn-success" href="/computers/{{$computer->id_computer}}/edit">Edit</td> --}}
-                                    <td><a class="btn btn-success" href="{{route('computers.edit', $computer)}}">Edit</td>
+                                    <td><a class="btn btn-success" href="{{ route('computers.edit', $computer) }}">Edit
+                                    </td>
+                                    <td>
+                                        <form action="{{ route('computers.destroy', $computer) }}" method="POST">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger">Delete</button>
+                                        </form>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -56,7 +59,5 @@
                 </div>
             </div>
         </div>
-
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
-    </body>
-</html>
+   
+@endsection

@@ -12,4 +12,15 @@ class Computer extends Model
 
     // Primary Key
     protected $primaryKey = 'id';
-}
+    //Mass Assignment
+    protected $fillable = [
+        'name',
+        'description',
+        'os',
+        'ram',
+        'price',
+        'storage',
+        'monitor',
+        'purchase_date'
+    ];          
+    }

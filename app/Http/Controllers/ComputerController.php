@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Computer;
+use App\Http\Requests\ComputerRequest;
 
 class ComputerController extends Controller
 {
@@ -15,7 +16,8 @@ class ComputerController extends Controller
         //var_dump(computer::all());die;
         //return computer::all();
         return view('computers.index', [
-            'computers' => Computer::all()
+            'computers' => Computer::all()->sortBy('id'),
+
         ]);
     }
 
@@ -32,22 +34,12 @@ class ComputerController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ComputerRequest $request)
     {
-        //var_dump($request->all());die;
-        //var_dump($request->computer_name);die;
-        $computer = new Computer();
-        $computer->name = $request->name;
-        $computer->description = $request->description;
-        $computer->os = $request->os;
-        $computer->ram = $request->ram;
-        $computer->price = $request->price;
-        $computer->storage = $request->storage;
-        $computer->monitor = $request->monitor;
-        $computer->purchase_date = $request->purchase_date;
+        Computer::create($request->all());
 
         
-        $computer->save();
+       
 
         return redirect('/computers');
     }
@@ -55,9 +47,15 @@ class ComputerController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show (Computer $computer)   
     {
-        //
+        //var_dump($computer);die;      
+        return view('computers.show', [
+            'computer' => $computer,
+            
+        ]);
+
+        
     }
 
     /**
@@ -76,18 +74,9 @@ class ComputerController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Computer $computer)
+    public function update(ComputerRequest $request, Computer $computer)
     {
-        $computer->name = $request->name;
-        $computer->description = $request->description;
-        $computer->os = $request->os;
-        $computer->ram = $request->ram;
-        $computer->price = $request->price;
-        $computer->storage = $request->storage;
-        $computer->monitor = $request->monitor;
-        $computer->purchase_date = $request->purchase_date;
-                
-        $computer->update();
+        $computer->update($request->all());
 
         return redirect('/computers');
     }
@@ -95,8 +84,11 @@ class ComputerController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy
+    (Computer $computer)
     {
-        //
-    }
+        $computer->delete();
+        return redirect('/computers');
+    }   
+    
 }
